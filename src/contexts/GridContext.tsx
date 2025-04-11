@@ -9,7 +9,6 @@ interface PressData {
   regDate: string
   logoDark: string
   logoLight: string
-  isSubscribed: boolean
 }
 
 interface GridContextType {

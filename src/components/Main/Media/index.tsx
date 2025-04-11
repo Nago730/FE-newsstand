@@ -17,7 +17,6 @@ export interface PressDataType {
   regDate: string
   logoDark: string
   logoLight: string
-  isSubscribed: boolean
 }
 
 function Media() {

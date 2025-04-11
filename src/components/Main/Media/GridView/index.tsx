@@ -7,6 +7,7 @@ import PrevPageBtn from '@/components/Common/PrevPageBtn'
 import { PressDataType, TabType } from '..'
 import { useMediaContext } from '@/hooks/useMediaContext'
 import { useGridContext } from '@/hooks/useGridContext'
+import { getSubscribedGridItemList } from '@/utils/newsTransFormater'
 
 interface GridViewProps {
   tabType: TabType
@@ -16,15 +17,13 @@ const MAX_GRID_PRESS_COUNT = 24
 
 function GridView({ tabType }: GridViewProps) {
   // 1. 데이터 준비 및 필터링
-  const { subscribedPressMap } = useMediaContext()
+  const { data, subscribedPressMap } = useMediaContext()
   const { gridItemList } = useGridContext()
   const [pageIndexAll, setPageIndexAll] = useState(1)
   const [pageIndexSubscribed, setPageIndexSubscribed] = useState(1)
 
   const filteredPressList =
-    tabType === 'subscribed'
-      ? gridItemList.filter(press => subscribedPressMap.has(press.pid))
-      : gridItemList
+    tabType === 'subscribed' ? getSubscribedGridItemList(data, subscribedPressMap) : gridItemList
 
   // 2. 페이지네이션 데이터 처리
   const totalPages = Math.ceil(filteredPressList.length / MAX_GRID_PRESS_COUNT) || 1

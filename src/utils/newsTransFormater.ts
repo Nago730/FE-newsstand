@@ -16,7 +16,6 @@ function getGridViewData(data: any) {
     regDate: item.regDate,
     logoDark: item.logoDark,
     logoLight: item.logoLight,
-    isSubscribed: false,
   }))
 
   return processedData.slice(0, 96)
@@ -102,6 +101,33 @@ function getPressNameByPressId(data: any, pid: string) {
   return press?.name
 }
 
+function sortByMapOrder(pressArray: Press[], pidMap: Map<string, boolean>): Press[] {
+  const pressMap = new Map(pressArray.map(press => [press.pid, press]))
+
+  const sorted = Array.from(pidMap.keys()).map(pid => pressMap.get(pid)!)
+
+  return sorted
+}
+
+function getSubscribedGridItemList(data: any, subscribedPressMap: any) {
+  const allPress = Object.values(data).flat()
+  const subscribedPressList: any = allPress.reduce((pressList: any, press: any) => {
+    if (subscribedPressMap.has(press.pid)) {
+      const newPress = {
+        pid: press.pid,
+        name: press.name,
+        regDate: press.regDate,
+        logoDark: press.logoDark,
+        logoLight: press.logoLight,
+      }
+      return [...pressList, newPress]
+    }
+    return pressList
+  }, [])
+
+  return sortByMapOrder(subscribedPressList, subscribedPressMap)
+}
+
 export {
   getGridViewData,
   getCategories,
@@ -110,4 +136,5 @@ export {
   getPidByIndex,
   getCategoryPressLength,
   getPressNameByPressId,
+  getSubscribedGridItemList,
 }

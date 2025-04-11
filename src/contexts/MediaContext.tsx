@@ -47,11 +47,10 @@ function MediaProvider({ children }: MediaProviderProps) {
   const handlePressSubscription = (pressId: string) => {
     setSubscribedPressMap(prev => {
       const newMap = new Map(prev)
-      if (newMap.has(pressId)) {
-        newMap.delete(pressId)
-      } else {
-        newMap.set(pressId, true)
-      }
+
+      if (newMap.has(pressId)) newMap.delete(pressId)
+      else newMap.set(pressId, true)
+
       return newMap
     })
   }
